@@ -10,29 +10,44 @@ import SwiftUI
 
 struct ContentView: View {
     @StateObject private var viewModel = GameViewModel()
+    @Environment(\.colorScheme) var colorScheme
     
     var body: some View {
         ZStack {
-            // Modern Background
-            LinearGradient(
-                colors: [Color(hex: "E0F7FA"), Color(hex: "E1BEE7")],
-                startPoint: .topLeading,
-                endPoint: .bottomTrailing
-            )
+            // Modern Background - Liquid Glass Adaptive
+            Group {
+                if colorScheme == .dark {
+                    // Deep Space / Neon Fluid Background
+                    LinearGradient(
+                        colors: [Color(hex: "0F2027"), Color(hex: "203A43"), Color(hex: "2C5364")],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                } else {
+                    // Soft Pastel Background
+                    LinearGradient(
+                        colors: [Color(hex: "E0F7FA"), Color(hex: "E1BEE7")],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                }
+            }
             .ignoresSafeArea()
             
-            // Abstract Background blobs
+            // Abstract Background blobs - Glowing in Dark Mode
             Circle()
-                .fill(Color.blue.opacity(0.1))
+                .fill(colorScheme == .dark ? Color.blue.opacity(0.3) : Color.blue.opacity(0.1))
                 .frame(width: 300, height: 300)
                 .blur(radius: 60)
                 .offset(x: -100, y: -200)
+                .blendMode(colorScheme == .dark ? .screen : .normal)
             
             Circle()
-                .fill(Color.purple.opacity(0.1))
+                .fill(colorScheme == .dark ? Color.purple.opacity(0.3) : Color.purple.opacity(0.1))
                 .frame(width: 250, height: 250)
                 .blur(radius: 50)
                 .offset(x: 120, y: 150)
+                .blendMode(colorScheme == .dark ? .screen : .normal)
             
             VStack(spacing: 40) {
                 // Header
